@@ -9921,8 +9921,8 @@ async function getSignedArtifactMetadata({ runtimeToken, workflowRunId, artifact
 }
 
 async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, idToken, isPreview = false }) {
-  // const octokit = github.getOctokit(githubToken)
-  const httpClient = new hc.HttpClient()
+  const octokit = github.getOctokit(githubToken)
+  // const httpClient = new hc.HttpClient()
   const payload = {
     artifact_url: artifactUrl,
     pages_build_version: buildVersion,
@@ -9934,34 +9934,34 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
   core.info(`Creating Pages deployment with payload:\n${JSON.stringify(payload, null, '\t')}`)
 
   try {
-    // const response2 = await octokit.request('POST /repos/{owner}/{repo}/pages/deployments', {
-    //   owner: github.context.repo.owner,
-    //   repo: github.context.repo.repo,
-    //   ...payload,
-    // })
+    const response = await octokit.request('POST /repos/{owner}/{repo}/pages/deployments', {
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ...payload,
+    })
 
-    const requestHeaders = {
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${githubToken}`,
-      'content-type': 'application/json; charset=utf-8'
-    }
-    const requestOptions = {
-      method: 'POST',
-      url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
-      headers: {
-        ...requestHeaders
-      },
-      body: payload
-    }
+    // const requestHeaders = {
+    //   'Accept': 'application/json',
+    //   'Authorization': `Bearer ${githubToken}`,
+    //   'content-type': 'application/json; charset=utf-8'
+    // }
+    // const requestOptions = {
+    //   method: 'POST',
+    //   url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
+    //   headers: {
+    //     ...requestHeaders
+    //   },
+    //   body: payload
+    // }
 
-    const res = await httpClient.get(
-      'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
-      requestHeaders
-    )
+    // const res = await httpClient.get(
+    //   'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
+    //   requestHeaders
+    // )
 
-    // May throw a RequestError (HttpError)
-    const response = await processRuntimeResponse(res, requestOptions)
-    console.log(response)
+    // // May throw a RequestError (HttpError)
+    // const response = await processRuntimeResponse(res, requestOptions)
+    // console.log(response)
 
     return response.data
   } catch (error) {
