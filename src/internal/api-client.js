@@ -110,7 +110,7 @@ async function getSignedArtifactMetadata({ runtimeToken, workflowRunId, artifact
 }
 
 async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, idToken, isPreview = false }) {
-  //const octokit = github.getOctokit(githubToken)
+  // const octokit = github.getOctokit(githubToken)
   const httpClient = new hc.HttpClient()
   const payload = {
     artifact_url: artifactUrl,
@@ -123,19 +123,20 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
   core.info(`Creating Pages deployment with payload:\n${JSON.stringify(payload, null, '\t')}`)
 
   try {
-    // const response = await octokit.request('POST /repos/{owner}/{repo}/pages/deployments', {
+    // const response2 = await octokit.request('POST /repos/{owner}/{repo}/pages/deployments', {
     //   owner: github.context.repo.owner,
     //   repo: github.context.repo.repo,
     //   ...payload,
     // })
 
     const requestHeaders = {
-      accept: 'application/json',
-      authorization: `Bearer ${githubToken}`
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${githubToken}`,
+      'content-type': 'application/json; charset=utf-8'
     }
     const requestOptions = {
       method: 'POST',
-      url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployments ',
+      url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployments',
       headers: {
         ...requestHeaders
       },
