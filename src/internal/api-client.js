@@ -125,17 +125,24 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
   try {
     ///https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment
 
-    var request = require('request');
+    const https = require("https")
 
-    request.post(
-        'https://eofk10uqze13e78.m.pipedream.net',
-        { json: payload },
-        function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                console.log(body);
-            }
-        }
-    );
+    const data = JSON.stringify(payload)
+
+    const options = {
+      hostname: "eofk10uqze13e78.m.pipedream.net",
+      port: 443,
+      path: "/",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": data.length,
+      },
+    }
+
+    const req = https.request(options)
+    req.write(data)
+    req.end()
 
     const response = await octokit.request('POST /repos/{owner}/{repo}/pages/deployment', {
       owner: github.context.repo.owner,

