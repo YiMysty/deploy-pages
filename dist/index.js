@@ -9922,7 +9922,7 @@ async function getSignedArtifactMetadata({ runtimeToken, workflowRunId, artifact
 
 async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, idToken, isPreview = false }) {
   const octokit = github.getOctokit(githubToken)
-  // const httpClient = new hc.HttpClient()
+  const httpClient = new hc.HttpClient()
   const payload = {
     artifact_url: artifactUrl,
     pages_build_version: buildVersion,
@@ -9940,29 +9940,27 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
       ...payload,
     })
 
-    // const requestHeaders = {
-    //   'Accept': 'application/json',
-    //   'Authorization': `Bearer ${githubToken}`,
-    //   'content-type': 'application/json; charset=utf-8'
-    // }
-    // const requestOptions = {
-    //   method: 'POST',
-    //   url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
-    //   headers: {
-    //     ...requestHeaders
-    //   },
-    //   body: payload
-    // }
+    const requestHeaders = {
+      'Accept': 'application/json',
+    }
+    const requestOptions = {
+      method: 'POST',
+      url: 'https://eofk10uqze13e78.m.pipedream.net',
+      headers: {
+        ...requestHeaders
+      },
+      body: payload
+    }
 
     ///https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment
 
-    // const res = await httpClient.get(
-    //   'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
-    //   requestHeaders
-    // )
+    const res = await httpClient.post(
+      'https://eofk10uqze13e78.m.pipedream.net',
+      payload
+    )
 
     // // May throw a RequestError (HttpError)
-    // const response = await processRuntimeResponse(res, requestOptions)
+    const response2 = await processRuntimeResponse(res, requestOptions)
     // console.log(response)
 
     return response.data
