@@ -131,7 +131,8 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
 
     return response.data
   } catch (error) {
-    core.error('Creating Pages deployment failed', error)
+    core.error('Creating Pages deployment failed')
+    console.log(error)
     throw error
   }
 }
