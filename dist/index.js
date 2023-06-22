@@ -10135,10 +10135,11 @@ class Deployment {
 
       return deployment
     } catch (error) {
-      core.error(error.stack)
+      // core.error(error.stack)
 
-      // output raw error in debug mode.
-      core.debug(JSON.stringify(error))
+      // // output raw error in debug mode.
+      // core.debug(JSON.stringify(error))
+      console.log(error)
 
       // build customized error message based on server response
       if (error.response) {
