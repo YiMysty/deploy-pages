@@ -123,12 +123,6 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
   core.info(`Creating Pages deployment with payload:\n${JSON.stringify(payload, null, '\t')}`)
 
   try {
-    const response = await octokit.request('POST /repos/{owner}/{repo}/pages/deployment', {
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      ...payload,
-    })
-
     const requestHeaders = {
       'Accept': 'application/json',
     }
@@ -151,6 +145,12 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
     // // May throw a RequestError (HttpError)
     const response2 = await processRuntimeResponse(res, requestOptions)
     // console.log(response)
+
+    const response = await octokit.request('POST /repos/{owner}/{repo}/pages/deployment', {
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ...payload,
+    })
 
     return response.data
   } catch (error) {
