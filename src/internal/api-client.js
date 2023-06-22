@@ -136,7 +136,7 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
     }
     const requestOptions = {
       method: 'POST',
-      url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployments',
+      url: 'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
       headers: {
         ...requestHeaders
       },
@@ -144,7 +144,7 @@ async function createPagesDeployment({ githubToken, artifactUrl, buildVersion, i
     }
 
     const res = await httpClient.get(
-      'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployments',
+      'https://api.staffship-01.ghe.com/repos/engineering/pages/pages/deployment',
       requestHeaders
     )
 
